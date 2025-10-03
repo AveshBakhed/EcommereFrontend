@@ -1,0 +1,64 @@
+import ProductCard from "./productCard";
+import Categorys from "./ Categories";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+export default function Hero({ productData, getProductForCart }) {
+  const [query, setQuery] = useState("");
+
+  const { name } = useParams();
+  // console.log(useParams());
+
+  const Filtered = name
+    ? productData.filter((item) => {
+        if (name === "men") return item.category === "men's clothing";
+        if (name === "women") return item.category === "women's clothing";
+        if (name === "electronics") return item.category === "electronics";
+        if (name === "jewelery" || name === "jewelery")
+          return item.category === "jewelery";
+        return true; // if category doesn’t match, show all
+      })
+    : productData;
+
+  // const Filtered = category
+  //   ? productData.filter((item) => item.category === category)
+  //   : productData;
+
+  const filteredProductData = Filtered.filter((item) =>
+    item.title.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return (
+    <>
+      <Categorys />
+      <section className="max-w-[1450px] mx-auto ">
+        <form className="w-fit mx-auto mb-5 md:my-10 sm:my-10">
+          <input
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            type="text"
+            placeholder="search for product"
+            className="py-2 px-3 border border-gray-500 text-gray-600 rounded-l-2xl  mr-1 w-[300px]  outline-0"
+          />
+          <button className="py-2 px-3 rounded-r-2xl  bg-yellow-400 border-yellow-400 border font-semibold ">
+            Search
+          </button>
+        </form>
+
+        <h1 className="text-3xl md:text-4xl  text-center font-semibold text-gray-700 my-10 py-3 mx-auto border-b w-fit border-gray-300 ">
+          {name ? name.toUpperCase() : "Featured Products"}
+        </h1>
+        <section className=" w-full mx-auto grid gap-2 md:grid-cols-4 sm:grid-cols-2 ">
+          {filteredProductData.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              getProductForCart={getProductForCart}
+            />
+          ))}
+        </section>
+      </section>
+    </>
+  );
+}
