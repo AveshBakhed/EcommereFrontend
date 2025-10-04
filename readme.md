@@ -4,7 +4,7 @@ A responsive single-page e-commerce frontend built with **React**, **Tailwind CS
 
 ## 🔗 Live Demo
 
-👉 [Click here to view the live site](https://app.netlify.com/projects/avesh-ecommerce-frontend/overview)
+👉 [Click here to view the live site](https://ecommerce-frontend-avesh.netlify.app/)
 
 ---
 
