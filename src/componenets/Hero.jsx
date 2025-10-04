@@ -1,25 +1,30 @@
 import ProductCard from "./productCard";
 import Categorys from "./ Categories";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Hero({ productData }) {
   const [query, setQuery] = useState("");
+  const [state, setState] = useState([]);
 
   const { name } = useParams();
 
-  const Filtered = name
-    ? productData.filter((item) => {
-        if (name === "men") return item.category === "men's clothing";
-        if (name === "women") return item.category === "women's clothing";
-        if (name === "electronics") return item.category === "electronics";
-        if (name === "jewelery" || name === "jewelery")
-          return item.category === "jewelery";
-        return true; // if category doesn’t match, show all
-      })
-    : productData;
+  useEffect(() => {
+    const Filtered = name
+      ? productData.filter((item) => {
+          if (name === "men") return item.category === "men's clothing";
+          if (name === "women") return item.category === "women's clothing";
+          if (name === "electronics") return item.category === "electronics";
+          if (name === "jewelery" || name === "jewelery")
+            return item.category === "jewelery";
+          return true; // if category doesn’t match, show all
+        })
+      : productData;
 
-  const filteredProductData = Filtered.filter((item) =>
+    setState(Filtered);
+  }, [name, productData]);
+
+  const filteredProductData = state.filter((item) =>
     item.title.toLowerCase().includes(query.toLowerCase())
   );
 
