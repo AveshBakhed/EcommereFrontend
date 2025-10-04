@@ -2,11 +2,11 @@ import ProductCard from "./productCard";
 import Categorys from "./ Categories";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-export default function Hero({ productData, getProductForCart }) {
+
+export default function Hero({ productData }) {
   const [query, setQuery] = useState("");
 
   const { name } = useParams();
-  // console.log(useParams());
 
   const Filtered = name
     ? productData.filter((item) => {
@@ -18,10 +18,6 @@ export default function Hero({ productData, getProductForCart }) {
         return true; // if category doesn’t match, show all
       })
     : productData;
-
-  // const Filtered = category
-  //   ? productData.filter((item) => item.category === category)
-  //   : productData;
 
   const filteredProductData = Filtered.filter((item) =>
     item.title.toLowerCase().includes(query.toLowerCase())
@@ -51,11 +47,7 @@ export default function Hero({ productData, getProductForCart }) {
         </h1>
         <section className=" w-full mx-auto grid gap-2 md:grid-cols-4 sm:grid-cols-2 ">
           {filteredProductData.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              getProductForCart={getProductForCart}
-            />
+            <ProductCard key={product.id} product={product} />
           ))}
         </section>
       </section>

@@ -2,26 +2,20 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Route, Routes } from "react-router-dom";
 import { gettingData } from "./services/api";
-import Navbar from "./componenets/Navbar";
 import Hero from "./componenets/Hero";
 import CartPage from "./pages/cartPage";
 import Checkout from "./pages/checkout";
 import LoginPage from "./pages/loginpage";
 import HomePage from "./pages/homepage";
-
-// const Hero = lazy(() => import("./componenets/Hero"));
-// const CartPage = lazy(() => import("./pages/cartPage"));
-// const Checkout = lazy(() => import("./pages/checkout"));
-// const LoginPage = lazy(() => import("./pages/loginpage"));
-// const SignupPage = lazy(() => import("./pages/signuppage"));
+import ProductPage from "./pages/Productpage";
 
 export default function App() {
   const [productData, setProductData] = useState([]);
+
   const [cart, setCart] = useState(() => {
     const cartData = localStorage.getItem("cart");
     return cartData ? JSON.parse(cartData) : [];
   });
-
   useEffect(() => {
     return localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
@@ -90,24 +84,10 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage cart={cart} />}>
-          <Route
-            index
-            element={
-              <Hero
-                key={productData.id}
-                productData={productData}
-                getProductForCart={getProductForCart}
-              />
-            }
-          />
+          <Route index element={<Hero productData={productData} />} />
           <Route
             path="/category/:name"
-            element={
-              <Hero
-                productData={productData}
-                getProductForCart={getProductForCart}
-              />
-            }
+            element={<Hero productData={productData} />}
           />
           <Route
             path="/cart"
@@ -117,6 +97,16 @@ export default function App() {
                 increaseQuantity={increaseQuantity}
                 decreaseQuantity={decreaseQuantity}
                 removeItemCart={removeItemCart}
+              />
+            }
+          />
+
+          <Route
+            path="/product/:id"
+            element={
+              <ProductPage
+                productData={productData}
+                getProductForCart={getProductForCart}
               />
             }
           />
