@@ -5,7 +5,7 @@ export default function ProtectedRoute() {
 
   // Not logged in → send to login and keep where they came from
   if (!token) {
-    return <Navigate to="/Login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // Logged in → render child route
