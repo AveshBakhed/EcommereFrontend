@@ -51,6 +51,7 @@ export default function CartCard({
       >
         Remove
         <Toaster
+          position="bottom-center"
           richColors
           toastOptions={{
             classNames: {
