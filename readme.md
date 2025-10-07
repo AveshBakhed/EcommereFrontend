@@ -7,6 +7,15 @@ It features dynamic product listings, category filters, a functional cart system
 
 👉 [Click here to view the live site](https://ecommerce-frontend-avesh.netlify.app/)
 
+## 🔑 Demo Login Details
+
+Since the checkout page is protected, you can log in using the following **demo credentials**:
+
+- **Email:** `John@mail.com`
+- **Password:** `changeme`
+
+> These credentials are for testing purposes only and are used for mock authentication within the app.
+
 ## ✨ Features
 
 - ✅ Product listing from **FakeStoreAPI**
