@@ -8,7 +8,7 @@ export default function Hero({ productData }) {
   const [state, setState] = useState([]);
 
   const { name } = useParams();
-
+  // console.log("i am param", name);
   useEffect(() => {
     const Filtered = name
       ? productData.filter((item) => {
@@ -54,7 +54,7 @@ export default function Hero({ productData }) {
         )}
         <section className=" w-full mx-auto grid gap-2 md:grid-cols-4 sm:grid-cols-2 ">
           {filteredProductData.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} param={name} />
           ))}
         </section>
       </section>

@@ -37,28 +37,19 @@ export default function Navbar({ cart }) {
           </Link>
 
           <nav className="hidden md:flex space-x-8">
-            <Link
-              to="/category/men"
-              className="text-gray-600 hover:text-gray-700"
-            >
+            <Link to="/men" className="text-gray-600 hover:text-gray-700">
               Men
             </Link>
-            <Link
-              to="/category/women"
-              className="text-gray-600 hover:text-gray-700"
-            >
+            <Link to="/women" className="text-gray-600 hover:text-gray-700">
               Women
             </Link>
             <Link
-              to="/category/electronics"
+              to="/electronics"
               className="text-gray-600 hover:text-gray-700"
             >
               Electronics
             </Link>
-            <Link
-              to="/category/jewelery"
-              className="text-gray-600 hover:text-gray-700"
-            >
+            <Link to="/jewelery" className="text-gray-600 hover:text-gray-700">
               Jewelery
             </Link>
           </nav>

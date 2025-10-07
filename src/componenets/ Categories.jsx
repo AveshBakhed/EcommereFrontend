@@ -14,25 +14,25 @@ export default function Categorys() {
     >
       <nav className="md:hidden sm:hidden grid grid-cols-2  mx-auto text-center py-3 gap-3 w-[90%] h-50  ">
         <Link
-          to="/category/men"
+          to="/men"
           className="text-gray-600 hover:text-gray-700 transition border border-gray-200  text-sm p-2 flex justify-start gap-2 flex-col items-center "
         >
           <span>Men</span> <IoMan className="text-3xl  " />
         </Link>
         <Link
-          to="/category/women"
+          to="/women"
           className="text-gray-600 hover:text-gray-700 transition border border-gray-200  text-sm p-2 flex justify-start gap-2 flex-col items-center"
         >
           <span>Women</span> <IoWomanSharp className="text-3xl " />
         </Link>
         <Link
-          to="/category/electronics"
+          to="/electronics"
           className="text-gray-600 hover:text-gray-700 transition  border border-gray-200 text-sm p-2 flex justify-start gap-2 flex-col items-center"
         >
           <span>Electronics</span> <IoHardwareChipSharp className="text-3xl " />
         </Link>
         <Link
-          to="/category/jewelery"
+          to="/jewelery"
           className="text-gray-600 hover:text-gray-700 transition border border-gray-200  text-sm p-2 flex justify-start gap-2 flex-col items-center"
         >
           <span>Jewelery</span> <IoDiamondSharp className="text-3xl " />

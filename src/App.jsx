@@ -87,10 +87,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage cart={cart} />}>
           <Route index element={<Hero productData={productData} />} />
-          <Route
-            path="/category/:name"
-            element={<Hero productData={productData} />}
-          />
+          <Route path="/:name" element={<Hero productData={productData} />} />
           <Route
             path="/cart"
             element={

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, param }) {
   return (
     <section>
-      <Link to={`/product/${product.id}`}>
-        <div className="mx-auto max-w-[300px]  my-2 rounded-2xl border border-gray-200  shadow-md overflow-hidden">
+      <Link to={`/product/${product.id}`} state={param}>
+        <div className="mx-auto max-w-[300px]  my-2 rounded-2xl border border-gray-200  shadow-md overflow-hidden ">
           {/* Image */}
           <div className="bg-gray-50 flex justify-center">
             <img

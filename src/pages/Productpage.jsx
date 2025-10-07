@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Toaster } from "sonner";
+import { useLocation } from "react-router-dom";
 
 export default function ProductPage({ productData, getProductForCart }) {
   const params = useParams();
   const [product, setProduct] = useState(null);
+  const location = useLocation();
+
+  const backTo = location.state || "";
 
   useEffect(() => {
     if (productData.length > 0) {
@@ -26,7 +30,7 @@ export default function ProductPage({ productData, getProductForCart }) {
     <main className="bg-white w-full  ">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:mt-20">
         <div className="mb-5">
-          <Link to=".." className="text-2xl ">
+          <Link to={`/${backTo}`} className="text-2xl ">
             ←{" "}
           </Link>
         </div>

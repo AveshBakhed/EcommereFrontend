@@ -423,7 +423,7 @@ export default function Checkout({ cart }) {
             ) : null}
 
             {/* Trust / Security */}
-            <section className="bg-white rounded-2xl shadow-sm border p-6">
+            <section className="bg-white rounded-2xl shadow-sm border p-6 border-gray-300">
               <h3 className="text-sm font-semibold mb-3">Secure checkout</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-center gap-2">
