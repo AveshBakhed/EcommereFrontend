@@ -8,6 +8,8 @@ import Checkout from "./pages/checkout";
 import LoginPage from "./pages/loginpage";
 import HomePage from "./pages/homepage";
 import ProductPage from "./pages/Productpage";
+import ProtectedRoute from "./componenets/protectedRoutes";
+import NotFound from "./pages/404page";
 
 export default function App() {
   const [productData, setProductData] = useState([]);
@@ -110,9 +112,12 @@ export default function App() {
               />
             }
           />
-          <Route path="/Checkout" element={<Checkout cart={cart} />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/Checkout" element={<Checkout cart={cart} />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

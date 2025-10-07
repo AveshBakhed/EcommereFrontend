@@ -12,9 +12,10 @@ export default function FinalPayment({
   cart,
   handleFinalMsg,
 }) {
+  
   return (
     <>
-      <div className="fixed h-screen w-screen inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div className="fixed h-screen w-screen inset-0 flex items-center justify-center bg-black/50 z-50 ">
         <div className="bg-white rounded-xl shadow-lg w-[360px] p-6 space-y-5 text-gray-800">
           {/* <!-- Heading --> */}
           <div className="w-full">

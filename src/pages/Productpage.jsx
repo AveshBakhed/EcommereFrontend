@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Toaster } from "sonner";
 
 export default function ProductPage({ productData, getProductForCart }) {
@@ -16,13 +16,20 @@ export default function ProductPage({ productData, getProductForCart }) {
   }, [params]);
 
   if (!product) {
-    return <p>Loading...</p>;
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center">
+        <p className="text-3xl font-semibold">Loading...</p>
+      </div>
+    );
   }
   return (
     <main className="bg-white w-full  ">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:mt-20">
-        {/* Breadcrumb (tiny) */}
-
+        <div className="mb-5">
+          <Link to=".." className="text-2xl ">
+            ←{" "}
+          </Link>
+        </div>
         {/* Core layout */}
         <section className="grid md:grid-cols-2 gap-6 ">
           {/* Left: Image */}

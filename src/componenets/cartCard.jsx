@@ -1,4 +1,4 @@
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 
 export default function CartCard({
   item,
@@ -10,7 +10,7 @@ export default function CartCard({
     <div className="flex items-center justify-between p-4 border-t border-gray-300  bg-white">
       {/* Product Image */}
       <img
-      decoding="async"
+        decoding="async"
         loading="lazy"
         src={item.image}
         alt={item.title}

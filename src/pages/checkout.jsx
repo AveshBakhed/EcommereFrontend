@@ -1,62 +1,73 @@
 import OrderSummary from "../componenets/orderSummary";
-import { useState } from "react";
+import { useMemo, useState, useEffect } from "react"; // ← useMemo added
 import FinalPayment from "../componenets/FinalPayment";
-import { nanoid } from "nanoid";
 
 export default function Checkout({ cart }) {
-  const [shipping, setShipping] = useState(19); // number
-  const [email, setEmail] = useState(""); // number
+  const [shipping, setShipping] = useState(19);
+
+  // ❗ keep as strings (not numbers) to avoid losing leading zeros & for validation
+  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState();
-  const [phone, setPhone] = useState();
+  const [postalCode, setPostalCode] = useState(""); // ← string
+  const [phone, setPhone] = useState(""); // ← string
   const [toggle, setToggle] = useState(false);
 
-  const handleShipChange = (e) => {
-    setShipping(Number(e.target.value)); // string -> number
-  };
+  const handleShipChange = (e) => setShipping(Number(e.target.value));
+  const handleFinalMsg = () => setToggle((prev) => !prev);
 
-  function handleFinalMsg() {
-    setToggle((prev) => !prev);
-  }
-  const funcEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const funcFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-  const funcAddress = (e) => {
-    setAddress(e.target.value);
-  };
-  const funcCity = (e) => {
-    setCity(e.target.value);
-  };
-  const funcPostalCode = (e) => {
-    setPostalCode(Number(e.target.value));
-  };
+  // Controlled handlers
+  const funcEmail = (e) => setEmail(e.target.value);
+  const funcFirstName = (e) => setFirstName(e.target.value);
+  const funcAddress = (e) => setAddress(e.target.value);
+  const funcCity = (e) => setCity(e.target.value);
+  const funcPostalCode = (e) =>
+    setPostalCode(e.target.value.replace(/\D/g, "")); // digits only
+  const funcPhone = (e) => setPhone(e.target.value.replace(/[^\d+]/g, "")); // allow + and digits
 
-  const funcPhone = (e) => {
-    setPhone(Number(e.target.value));
-  };
+  useEffect(() => {
+    document.body.style.overflow = toggle ? "hidden" : "auto";
+  }, [toggle]);
 
-  //   console.log(email);
-  //   console.log(firstName);
-  //   console.log(address);
-  //   console.log(phone);
-  //   console.log(city);
-  //   console.log(address);
-
-  const subTotal = cart.reduce(
-    (acc, current) => acc + current.price * current.quantity,
-    0
+  // 💡 totals memoized
+  const subTotal = useMemo(
+    () =>
+      cart.reduce((acc, current) => acc + current.price * current.quantity, 0),
+    [cart]
   );
-
   const taxRate = (subTotal + shipping) * 0.1;
   const finalTotal = subTotal + shipping + taxRate;
+
+  // 🧪 simple validators
+  const emailOk = useMemo(
+    () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+    [email]
+  );
+  const postalOk = useMemo(
+    () => /^\d{5,6}$/.test(postalCode.trim()),
+    [postalCode]
+  );
+  const phoneOk = useMemo(() => /^\+?\d{7,15}$/.test(phone.trim()), [phone]);
+
+  // ✅ all required fields present & valid
+  const isFormValid = useMemo(() => {
+    return (
+      emailOk &&
+      firstName.trim() !== "" &&
+      address.trim() !== "" &&
+      city.trim() !== "" &&
+      postalOk &&
+      phoneOk
+    );
+  }, [emailOk, firstName, address, city, postalOk, phoneOk]);
+
+  // final gate: valid form + items in cart + valid shipping
+  const canPay = isFormValid && cart.length > 0 && Number.isFinite(shipping);
+
   return (
     <>
-      {/* <!-- Progress --> */}
+      {/* Progress */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mb-3 md:mb-4 mb-5">
         <ol className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
           <li className="flex items-center gap-2">
@@ -79,34 +90,23 @@ export default function Checkout({ cart }) {
             </span>
             Shipping
           </li>
-          {/* <span className="text-gray-400">/</span>
-          <li className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-gray-900 text-white text-xs grid place-content-center">
-              4
-            </span>
-            Review
-          </li> */}
-          {/* <span className="text-gray-400">/</span> */}
-          {/* <li className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-gray-900 text-white text-xs grid place-content-center">
-              5
-            </span>
-            Payment
-          </li> */}
         </ol>
       </div>
 
-      {/* <!-- Main --> */}
+      {/* Main */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* <!-- Left: Forms --> */}
+          {/* Left: Forms */}
           <section className="lg:col-span-2 space-y-8">
-            {/* <!-- Contact --> */}
+            {/* Contact */}
             <form className="bg-white rounded-2xl shadow-sm border border-gray-300 p-6 space-y-6">
               <h2 className="text-lg font-semibold">Contact information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="col-span-1 md:col-span-2">
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Email
                   </label>
                   <input
@@ -120,7 +120,10 @@ export default function Checkout({ cart }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="fname"
+                    className="block text-sm font-medium mb-1"
+                  >
                     First name
                   </label>
                   <input
@@ -133,7 +136,10 @@ export default function Checkout({ cart }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="lname"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Last name
                   </label>
                   <input
@@ -155,12 +161,15 @@ export default function Checkout({ cart }) {
               </div>
             </form>
 
-            {/* <!-- Shipping Address --> */}
+            {/* Shipping Address */}
             <form className="bg-white rounded-2xl shadow-md border border-gray-300 p-6 space-y-6">
               <h2 className="text-lg font-semibold">Shipping address</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Country/Region
                   </label>
                   <select id="country" className="w-full rounded-xl outline-0">
@@ -172,7 +181,10 @@ export default function Checkout({ cart }) {
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="address1"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Address
                   </label>
                   <input
@@ -185,7 +197,10 @@ export default function Checkout({ cart }) {
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1 sr-only">
+                  <label
+                    htmlFor="address2"
+                    className="block text-sm font-medium mb-1 sr-only"
+                  >
                     Apartment, suite, etc.
                   </label>
                   <input
@@ -196,7 +211,12 @@ export default function Checkout({ cart }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">City</label>
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-medium mb-1"
+                  >
+                    City
+                  </label>
                   <input
                     onChange={funcCity}
                     value={city}
@@ -207,7 +227,10 @@ export default function Checkout({ cart }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="state"
+                    className="block text-sm font-medium mb-1"
+                  >
                     State/Province
                   </label>
                   <input
@@ -218,7 +241,10 @@ export default function Checkout({ cart }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="zip"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Postal code
                   </label>
                   <input
@@ -226,12 +252,16 @@ export default function Checkout({ cart }) {
                     value={postalCode}
                     id="zip"
                     type="text"
+                    inputMode="numeric"
                     placeholder="400102"
                     className="w-full rounded py-1 px-2 outline-1 outline-gray-200"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Phone
                   </label>
                   <input
@@ -239,6 +269,7 @@ export default function Checkout({ cart }) {
                     value={phone}
                     id="phone"
                     type="tel"
+                    inputMode="tel"
                     placeholder="+91 98765 43210"
                     className="w-full rounded py-1 px-2 outline-1 outline-gray-200"
                   />
@@ -255,12 +286,12 @@ export default function Checkout({ cart }) {
               </div>
             </form>
 
-            {/* <!-- Shipping Method --> */}
-            <form className="bg-white rounded-2xl shadow-sm border p-6 space-y-4">
+            {/* Shipping Method */}
+            <form className="bg-white rounded-2xl shadow-sm border p-6 space-y-4 border-gray-300">
               <h2 className="text-lg font-semibold">Shipping method</h2>
               <fieldset className="space-y-3">
-                <label className="flex items-center justify-between p-4 border rounded-xl hover:bg-gray-50 cursor-pointer">
-                  <span className="flex items-center gap-3">
+                <label className="flex items-center justify-between p-4 border border-gray-300 rounded-xl hover:bg-gray-50 cursor-pointer">
+                  <span className="flex items-center gap-3 ">
                     <input
                       onChange={handleShipChange}
                       defaultChecked
@@ -279,7 +310,7 @@ export default function Checkout({ cart }) {
                   <span className="text-sm font-semibold">$19</span>
                 </label>
 
-                <label className="flex items-center justify-between p-4 border rounded-xl hover:bg-gray-50 cursor-pointer">
+                <label className="flex items-center justify-between p-4 border rounded-xl hover:bg-gray-50 cursor-pointer border-gray-300">
                   <span className="flex items-center gap-3">
                     <input
                       onChange={handleShipChange}
@@ -298,7 +329,7 @@ export default function Checkout({ cart }) {
                   <span className="text-sm font-semibold">$59</span>
                 </label>
 
-                <label className="flex items-center justify-between p-4 border rounded-xl hover:bg-gray-50 cursor-pointer">
+                <label className="flex items-center justify-between p-4 border rounded-xl hover:bg-gray-50 cursor-pointer border-gray-300">
                   <span className="flex items-center gap-3">
                     <input
                       onChange={handleShipChange}
@@ -320,19 +351,19 @@ export default function Checkout({ cart }) {
             </form>
           </section>
 
-          {/* <!-- Right: Order Summary --> */}
+          {/* Right: Order Summary */}
           <aside className="lg:col-span-1 space-y-6">
-            <section className="bg-white rounded-2xl shadow-sm border p-6">
+            <section className="bg-white rounded-2xl shadow-sm border p-6 border-gray-300">
               <h2 className="text-lg font-semibold mb-4">Order summary</h2>
 
-              {/* <!-- Items --> */}
+              {/* Items */}
               <ul className="space-y-4">
-                {cart.map((item) => {
-                  return <OrderSummary item={item} key={nanoid()} />;
-                })}
+                {cart.map((item) => (
+                  <OrderSummary item={item} key={item.id} />
+                ))}
               </ul>
 
-              {/* <!-- Totals --> */}
+              {/* Totals */}
               <dl className="mt-6 space-y-2 text-sm">
                 <div className="flex justify-between">
                   <dt className="text-gray-600">Subtotal</dt>
@@ -346,18 +377,34 @@ export default function Checkout({ cart }) {
                   <dt className="text-gray-600">Tax (10%)</dt>
                   <dd className="font-medium">${taxRate.toFixed(2)}</dd>
                 </div>
-                <div className="pt-2 border-t flex justify-between text-base text-center items-center">
+
+                <div className="pt-2 border-t flex justify-between text-base items-center">
                   <dt className="font-semibold">Total</dt>
 
-                  <dd
-                    onClick={handleFinalMsg}
-                    className="font-medium rounded-lg bg-yellow-400 px-4 py-2 cursor-pointer"
+                  {/* 🔒 Pay disabled until form valid */}
+                  <button
+                    type="button"
+                    onClick={() => canPay && handleFinalMsg()}
+                    disabled={!canPay}
+                    aria-disabled={!canPay}
+                    className={`font-medium rounded-lg px-4 py-2 transition
+                      ${
+                        canPay
+                          ? "bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+                          : "bg-gray-300 cursor-not-allowed text-gray-600"
+                      }`}
+                    title={
+                      !canPay
+                        ? "Fill all required fields to continue"
+                        : "Proceed to payment"
+                    }
                   >
                     Pay ${finalTotal.toFixed(2)}
-                  </dd>
+                  </button>
                 </div>
               </dl>
             </section>
+
             {toggle ? (
               <FinalPayment
                 email={email}
@@ -373,11 +420,9 @@ export default function Checkout({ cart }) {
                 cart={cart}
                 handleFinalMsg={handleFinalMsg}
               />
-            ) : (
-              ""
-            )}
+            ) : null}
 
-            {/* <!-- Trust / Security --> */}
+            {/* Trust / Security */}
             <section className="bg-white rounded-2xl shadow-sm border p-6">
               <h3 className="text-sm font-semibold mb-3">Secure checkout</h3>
               <ul className="space-y-2 text-sm text-gray-600">

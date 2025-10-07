@@ -47,9 +47,11 @@ export default function Hero({ productData }) {
           </button>
         </form>
 
-        <h1 className="text-3xl md:text-4xl  text-center font-semibold text-gray-700 my-10 py-3 mx-auto border-b w-fit border-gray-300 ">
-          {name ? name.toUpperCase() : "Featured Products"}
-        </h1>
+        {!query && (
+          <h1 className="text-3xl md:text-4xl  text-center font-semibold text-gray-700 my-10 py-3 mx-auto border-b w-fit border-gray-300 ">
+            {name ? name.toUpperCase() : "Featured Products"}
+          </h1>
+        )}
         <section className=" w-full mx-auto grid gap-2 md:grid-cols-4 sm:grid-cols-2 ">
           {filteredProductData.map((product) => (
             <ProductCard key={product.id} product={product} />

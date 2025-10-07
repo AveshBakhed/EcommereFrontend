@@ -23,7 +23,7 @@ export default function CartPage({
   );
 
   return (
-    <section className="max-w-2xl mx-auto p-4 ">
+    <section className="max-w-2xl mx-auto p-4 h-screen">
       {cart.length > 0 ? (
         <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
           Cart (<span className="text-xl"> {`${cart.length} items`} </span>)
