@@ -3,12 +3,12 @@ import Categorys from "./ Categories";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function Hero({ productData }) {
+export default function Hero({ productData, loading }) {
   const [query, setQuery] = useState("");
   const [state, setState] = useState([]);
 
   const { name } = useParams();
-  // console.log("i am param", name);
+
   useEffect(() => {
     const Filtered = name
       ? productData.filter((item) => {
@@ -28,6 +28,13 @@ export default function Hero({ productData }) {
     item.title.toLowerCase().includes(query.toLowerCase())
   );
 
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center">
+        <p className="text-3xl font-semibold">Loading...</p>
+      </div>
+    );
+  }
   return (
     <>
       <Categorys />

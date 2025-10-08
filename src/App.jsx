@@ -13,6 +13,24 @@ import NotFound from "./pages/404page";
 
 export default function App() {
   const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchProducts = async () => {
+      try {
+        const data = await gettingData();
+        setProductData(data);
+      } catch (error) {
+        console.log("ERROR =", error);
+      } finally {
+        console.log("Success");
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const [cart, setCart] = useState(() => {
     const cartData = localStorage.getItem("cart");
@@ -67,27 +85,19 @@ export default function App() {
     setCart((prev) => prev.filter((item) => item.title !== title));
     toast.error("Removed from cart");
   }
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await gettingData();
-        setProductData(data);
-      } catch (error) {
-        console.log("ERROR =", error);
-      } finally {
-        console.log("Success");
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage cart={cart} />}>
-          <Route index element={<Hero productData={productData} />} />
-          <Route path="/:name" element={<Hero productData={productData} />} />
+          <Route
+            index
+            element={<Hero productData={productData} loading={loading} />}
+          />
+          <Route
+            path="/:name"
+            element={<Hero productData={productData} loading={loading} />}
+          />
           <Route
             path="/cart"
             element={
@@ -113,8 +123,8 @@ export default function App() {
             <Route path="/Checkout" element={<Checkout cart={cart} />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
