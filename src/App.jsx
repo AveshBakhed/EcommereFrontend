@@ -14,6 +14,7 @@ import NotFound from "./pages/404page";
 export default function App() {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -22,7 +23,7 @@ export default function App() {
         const data = await gettingData();
         setProductData(data);
       } catch (error) {
-        console.log("ERROR =", error);
+        setError(error);
       } finally {
         console.log("Success");
         setLoading(false);
@@ -89,7 +90,7 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage cart={cart} />}>
+        <Route path="/" element={<HomePage cart={cart} error={error} />}>
           <Route
             index
             element={<Hero productData={productData} loading={loading} />}

@@ -3,7 +3,7 @@ import Categorys from "./ Categories";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function Hero({ productData, loading }) {
+export default function Hero({ productData, loading, error }) {
   const [query, setQuery] = useState("");
   const [state, setState] = useState([]);
 
@@ -31,7 +31,17 @@ export default function Hero({ productData, loading }) {
   if (loading) {
     return (
       <div className="w-full h-screen flex flex-col justify-center items-center">
-        <p className="text-3xl font-semibold">Loading...</p>
+        <p className="text-3xl font-semibold text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center ">
+        <p className="text-3xl text-gray-600 font-semibold">
+          {error.statusText} ,{error.message}...
+        </p>
       </div>
     );
   }
