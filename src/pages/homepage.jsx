@@ -5,9 +5,11 @@ import { Outlet } from "react-router-dom";
 
 export default function HomePage() {
   return (
-    <section>
+    <section className="w-full min-h-screen flex flex-col">
       <Navbar />
-      <Outlet />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
       <Footer />
     </section>
   );
