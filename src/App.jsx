@@ -1,38 +1,36 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import { gettingData } from "./services/api";
-import Hero from "./componenets/Hero";
-import CartPage from "./pages/cartPage";
-import Checkout from "./pages/checkout";
-import LoginPage from "./pages/loginpage";
-import HomePage from "./pages/homepage";
-import ProductPage from "./pages/Productpage";
-import ProtectedRoute from "./componenets/protectedRoutes";
-import NotFound from "./pages/404page";
 import { ProductContext, CartContext } from "./context/contextData";
 
+export async function Loader() {
+  const data = await gettingData();
+  return data;
+}
+
 export default function App() {
-  const [productData, setProductData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const productData = useLoaderData();
+  // const [productData, setProductData] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchProducts = async () => {
-      try {
-        const data = await gettingData();
-        setProductData(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        console.log("Success");
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const data = await gettingData();
+  //       setProductData(data);
+  //     } catch (error) {
+  //       setError(error);
+  //     } finally {
+  //       console.log("Success");
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
 
   const [cart, setCart] = useState(() => {
     const cartData = localStorage.getItem("cart");
@@ -100,19 +98,7 @@ export default function App() {
             decreaseQuantity,
           }}
         >
-          <Routes>
-            <Route path="/" element={<HomePage error={error} />}>
-              <Route index element={<Hero loading={loading} />} />
-              <Route path="/:name" element={<Hero loading={loading} />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/product/:id" element={<ProductPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/Checkout" element={<Checkout />} />
-              </Route>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
+          <Outlet />
         </CartContext.Provider>
       </ProductContext.Provider>
     </>
