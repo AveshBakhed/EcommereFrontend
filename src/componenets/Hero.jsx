@@ -1,10 +1,10 @@
 import ProductCard from "./productCard";
-import Categorys from "./ Categories";
+import Categorys from "./Categories";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ProductContext } from "../context/contextData";
 
-export default function Hero({ loading, error }) {
+export default function Hero() {
   const { productData } = useContext(ProductContext);
   const [query, setQuery] = useState("");
   const [state, setState] = useState([]);
@@ -30,23 +30,6 @@ export default function Hero({ loading, error }) {
     item.title.toLowerCase().includes(query.toLowerCase())
   );
 
-  if (loading) {
-    return (
-      <div className="w-full h-screen flex flex-col justify-center items-center">
-        <p className="text-3xl font-semibold text-gray-600">Loading...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="w-full h-screen flex flex-col justify-center items-center ">
-        <p className="text-3xl text-gray-600 font-semibold">
-          {error.statusText} ,{error.message}...
-        </p>
-      </div>
-    );
-  }
   return (
     <>
       <Categorys />
