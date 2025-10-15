@@ -1,9 +1,9 @@
-export default function CartCard({
-  item,
-  increaseQuantity,
-  decreaseQuantity,
-  removeItemCart,
-}) {
+import { useContext } from "react";
+import { CartContext } from "../context/contextData";
+
+export default function CartCard({ item }) {
+  const { increaseQuantity, decreaseQuantity, removeItemCart } =
+    useContext(CartContext);
   return (
     <div className="flex items-center justify-between p-4 border-t border-gray-300  bg-white">
       {/* Product Image */}

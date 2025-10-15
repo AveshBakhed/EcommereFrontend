@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { showSuccessToast, showErrorToast } from "../utlis/toastUtlis";
 
 import axios from "axios";
 
@@ -26,14 +26,14 @@ export default function LoginPage() {
     axios
       .post("https://api.escuelajs.co/api/v1/auth/login", payload)
       .then((res) => {
-        toast.success("Login SucessFul!");
+        showSuccessToast("Login SucessFul!");
         localStorage.setItem("token", JSON.stringify(res.data.access_token));
         setTimeout(() => navigate("/Checkout"), 1000);
 
         window.dispatchEvent(new Event("authChange"));
       })
       .catch((err) => {
-        toast.error("Invalid email or password");
+        showErrorToast("Invalid email or password");
         console.log("error ->", err);
       });
   }

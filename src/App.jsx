@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
 import { gettingData } from "./services/api";
 import { ProductContext, CartContext } from "./context/contextData";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { showSuccessToast, showErrorToast } from "./utlis/toastUtlis";
 
 export async function Loader() {
   const data = await gettingData();
@@ -22,7 +23,7 @@ export default function App() {
 
   function getProductForCart(title) {
     const found = productData.find((item) => item.title === title);
-    toast.success("Added to cart");
+    showSuccessToast("Added to cart");
     if (found) {
       const existing = cart.some((item) => item.title === title);
       if (existing) {
@@ -63,7 +64,7 @@ export default function App() {
 
   function removeItemCart(title) {
     setCart((prev) => prev.filter((item) => item.title !== title));
-    toast.error("Removed from cart");
+    showErrorToast("Removed from cart");
   }
 
   return (
@@ -81,9 +82,10 @@ export default function App() {
           <Outlet />
           <ToastContainer
             position="top-center"
-            autoClose={2000}
+            autoClose={1500}
             newestOnTop
             theme="colored"
+            limit={1}
           />
         </CartContext.Provider>
       </ProductContext.Provider>

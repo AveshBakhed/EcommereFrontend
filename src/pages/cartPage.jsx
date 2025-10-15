@@ -3,20 +3,10 @@ import CartCard from "../componenets/cartCard";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/contextData";
 
-
 export default function CartPage() {
-  const { cart, increaseQuantity, decreaseQuantity, removeItemCart } =
-    useContext(CartContext);
+  const { cart } = useContext(CartContext);
   const cartElement = cart.map((item) => {
-    return (
-      <CartCard
-        item={item}
-        key={item.id}
-        increaseQuantity={increaseQuantity}
-        decreaseQuantity={decreaseQuantity}
-        removeItemCart={removeItemCart}
-      />
-    );
+    return <CartCard item={item} key={item.id} />;
   });
   const total = cart.reduce(
     (acc, current) => acc + current.price * current.quantity,
