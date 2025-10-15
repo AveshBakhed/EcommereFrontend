@@ -15,11 +15,19 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import ErrorElement from "./componenets/errorPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromChildren(
-    <Route element={<App />} loader={AppLoader}>
-      <Route path="/" element={<HomePage />}>
+    <Route element={<App />} loader={AppLoader} errorElement={<ErrorElement />}>
+      <Route
+        path="/"
+        element={<HomePage />}
+        loader={() => {
+          return null;
+        }}
+        errorElement={<ErrorElement />}
+      >
         <Route index element={<Hero />} />
         <Route path="/:name" element={<Hero />} />
         <Route path="/cart" element={<CartPage />} />
@@ -36,6 +44,12 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider
+      router={router}
+      fallbackElement={<div className="p-8 text-center">Loading...</div>}
+      hydrateFallbackElement={
+        <div className="p-8 text-center">Preparing app...</div>
+      } // ✅ added
+    />
   </StrictMode>
 );
