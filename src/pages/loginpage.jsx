@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import axios from "axios";
 
@@ -39,12 +39,6 @@ export default function LoginPage() {
   }
   return (
     <div className="flex items-center justify-center min-h-screen ">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        newestOnTop
-        theme="colored"
-      />
       <div className="mx-5 w-full bg-white p-8 rounded-lg border border-gray-200 shadow-md sm:w-[500px]">
         {/* Go Back Button */}
         <Link to="/" className="text-sm text-gray-600 hover:text-gray-800 mb-6">

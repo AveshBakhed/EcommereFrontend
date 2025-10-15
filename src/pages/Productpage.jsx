@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import { CartContext, ProductContext } from "../context/contextData";
 
@@ -77,16 +76,6 @@ export default function ProductPage() {
               className=" w-full outline-none mt-4 rounded-lg bg-black px-5 py-2 text-white font-medium hover:bg-gray-900 active:scale-[.98] focus:outline-none focus:ring-2 focus:ring-black/30"
             >
               Add to cart
-              <Toaster
-                position="top-center"
-                richColors
-                duration={700}
-                toastOptions={{
-                  classNames: {
-                    toast: "shadow-none bg-red-300 px-4 py-2",
-                  },
-                }}
-              />
             </button>
 
             <div className="mt-3 rounded-md border border-gray-200 bg-gray-50 p-3">
@@ -120,7 +109,3 @@ export default function ProductPage() {
     </main>
   );
 }
-
-//   className="inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white font-medium hover:bg-gray-900 active:scale-
-
-// px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 hover:bg-yellow-500 hover:border-yellow-500 hover:text-white  active:bg-yellow-500 active:border-yellow-500 active:text-active  after:bg-yellow-500 ease-in-out duration-300 transition-all

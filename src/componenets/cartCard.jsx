@@ -1,5 +1,3 @@
-import { Toaster } from "sonner";
-
 export default function CartCard({
   item,
   increaseQuantity,
@@ -50,16 +48,6 @@ export default function CartCard({
         className="ml-4 text-red-500 hover:text-red-700 text-sm"
       >
         Remove
-        <Toaster
-          position="bottom-center"
-          richColors
-          toastOptions={{
-            classNames: {
-              toast: "shadow-none border bg-white rounded-md px-4 py-2",
-              title: "font-medium",
-            },
-          }}
-        />
       </button>
     </div>
   );

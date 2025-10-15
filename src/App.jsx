@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
 import { Outlet, useLoaderData } from "react-router-dom";
 import { gettingData } from "./services/api";
 import { ProductContext, CartContext } from "./context/contextData";
+import { ToastContainer, toast } from "react-toastify";
 
 export async function Loader() {
   const data = await gettingData();
@@ -11,26 +11,6 @@ export async function Loader() {
 
 export default function App() {
   const productData = useLoaderData();
-  // const [productData, setProductData] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const data = await gettingData();
-  //       setProductData(data);
-  //     } catch (error) {
-  //       setError(error);
-  //     } finally {
-  //       console.log("Success");
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchProducts();
-  // }, []);
 
   const [cart, setCart] = useState(() => {
     const cartData = localStorage.getItem("cart");
@@ -99,6 +79,12 @@ export default function App() {
           }}
         >
           <Outlet />
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            newestOnTop
+            theme="colored"
+          />
         </CartContext.Provider>
       </ProductContext.Provider>
     </>
