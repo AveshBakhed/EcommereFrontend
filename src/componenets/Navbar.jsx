@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-// import { toast, ToastContainer } from "react-toastify";
-import { useState, useEffect } from "react";
+import { CartContext } from "../context/contextData";
+import { useState, useEffect, useContext } from "react";
 
-export default function Navbar({ cart }) {
+export default function Navbar() {
+  const { cart } = useContext(CartContext);
+
   const [loggedIn, setLoggedIn] = useState(
     !!JSON.parse(localStorage.getItem("token"))
   );

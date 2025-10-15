@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
+import { CartContext, ProductContext } from "../context/contextData";
 
-export default function ProductPage({ productData, getProductForCart }) {
+export default function ProductPage() {
+  const { productData } = useContext(ProductContext);
+  const { getProductForCart } = useContext(CartContext);
   const params = useParams();
   const [product, setProduct] = useState(null);
   const location = useLocation();

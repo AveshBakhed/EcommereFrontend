@@ -1,11 +1,12 @@
+import { useContext } from "react";
 import CartCard from "../componenets/cartCard";
 import { Link } from "react-router-dom";
-export default function CartPage({
-  cart,
-  increaseQuantity,
-  decreaseQuantity,
-  removeItemCart,
-}) {
+import { CartContext } from "../context/contextData";
+
+
+export default function CartPage() {
+  const { cart, increaseQuantity, decreaseQuantity, removeItemCart } =
+    useContext(CartContext);
   const cartElement = cart.map((item) => {
     return (
       <CartCard

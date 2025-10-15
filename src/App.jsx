@@ -10,6 +10,7 @@ import HomePage from "./pages/homepage";
 import ProductPage from "./pages/Productpage";
 import ProtectedRoute from "./componenets/protectedRoutes";
 import NotFound from "./pages/404page";
+import { ProductContext, CartContext } from "./context/contextData";
 
 export default function App() {
   const [productData, setProductData] = useState([]);
@@ -89,44 +90,31 @@ export default function App() {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<HomePage cart={cart} error={error} />}>
-          <Route
-            index
-            element={<Hero productData={productData} loading={loading} />}
-          />
-          <Route
-            path="/:name"
-            element={<Hero productData={productData} loading={loading} />}
-          />
-          <Route
-            path="/cart"
-            element={
-              <CartPage
-                cart={cart}
-                increaseQuantity={increaseQuantity}
-                decreaseQuantity={decreaseQuantity}
-                removeItemCart={removeItemCart}
-              />
-            }
-          />
-
-          <Route
-            path="/product/:id"
-            element={
-              <ProductPage
-                productData={productData}
-                getProductForCart={getProductForCart}
-              />
-            }
-          />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/Checkout" element={<Checkout cart={cart} />} />
-          </Route>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+      <ProductContext.Provider value={{ productData }}>
+        <CartContext.Provider
+          value={{
+            cart,
+            removeItemCart,
+            getProductForCart,
+            increaseQuantity,
+            decreaseQuantity,
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<HomePage error={error} />}>
+              <Route index element={<Hero loading={loading} />} />
+              <Route path="/:name" element={<Hero loading={loading} />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/Checkout" element={<Checkout />} />
+              </Route>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </CartContext.Provider>
+      </ProductContext.Provider>
     </>
   );
 }

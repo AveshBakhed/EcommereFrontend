@@ -1,8 +1,10 @@
 import OrderSummary from "../componenets/orderSummary";
-import { useMemo, useState, useEffect } from "react"; // ← useMemo added
+import { useMemo, useState, useEffect, useContext } from "react"; // ← useMemo added
 import FinalPayment from "../componenets/FinalPayment";
+import { CartContext } from "../context/contextData";
 
-export default function Checkout({ cart }) {
+export default function Checkout() {
+  const { cart } = useContext(CartContext);
   const [shipping, setShipping] = useState(19);
 
   // ❗ keep as strings (not numbers) to avoid losing leading zeros & for validation

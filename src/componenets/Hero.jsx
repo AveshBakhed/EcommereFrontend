@@ -1,9 +1,11 @@
 import ProductCard from "./productCard";
 import Categorys from "./ Categories";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { ProductContext } from "../context/contextData";
 
-export default function Hero({ productData, loading, error }) {
+export default function Hero({ loading, error }) {
+  const { productData } = useContext(ProductContext);
   const [query, setQuery] = useState("");
   const [state, setState] = useState([]);
 

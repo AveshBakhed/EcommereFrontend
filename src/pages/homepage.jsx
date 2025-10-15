@@ -3,10 +3,10 @@ import Footer from "../componenets/footer";
 
 import { Outlet } from "react-router-dom";
 
-export default function HomePage({ cart }) {
+export default function HomePage() {
   return (
     <section>
-      <Navbar cart={cart} />
+      <Navbar />
       <Outlet />
       <Footer />
     </section>
