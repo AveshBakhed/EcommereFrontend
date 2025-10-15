@@ -1,13 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App, { Loader as AppLoader } from "./App.jsx";
-import Hero from "./componenets/Hero";
+import Hero from "./components/Hero";
 import CartPage from "./pages/cartPage";
 import Checkout from "./pages/checkout";
 import LoginPage from "./pages/loginpage";
 import HomePage from "./pages/homepage";
 import ProductPage from "./pages/Productpage";
-import ProtectedRoute from "./componenets/protectedRoutes";
+import ProtectedRoute from "./components/protectedRoutes";
 import NotFound from "./pages/404page";
 import {
   createBrowserRouter,
@@ -15,7 +15,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import ErrorElement from "./componenets/errorPage.jsx";
+import ErrorElement from "./components/errorPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromChildren(

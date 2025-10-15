@@ -1,6 +1,6 @@
-import OrderSummary from "../componenets/orderSummary";
+import OrderSummary from "../components/orderSummary";
 import { useMemo, useState, useEffect, useContext } from "react"; // ← useMemo added
-import FinalPayment from "../componenets/FinalPayment";
+import FinalPayment from "../components/FinalPayment";
 import { CartContext } from "../context/contextData";
 
 export default function Checkout() {
