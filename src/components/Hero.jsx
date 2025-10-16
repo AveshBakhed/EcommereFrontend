@@ -34,7 +34,7 @@ export default function Hero() {
     <>
       <Categorys />
       <section className="max-w-[1450px] mx-auto ">
-        <form className="w-fit mx-auto mb-5 md:my-10 sm:my-10">
+        <form className="w-fit mx-auto mb-5 md:my-10 sm:my-10 ">
           <input
             value={query}
             onChange={(e) => {
@@ -42,7 +42,7 @@ export default function Hero() {
             }}
             type="text"
             placeholder="search for product"
-            className="py-2 px-3 border border-gray-500 text-gray-600 rounded-l-2xl  mr-1 w-[300px]  outline-0"
+            className="py-2 px-3 border border-gray-500 text-gray-600 rounded-l-2xl  mr-1 w-[300px]  outline-0  max-sm:max-w-[250px]"
           />
           <button className="py-2 px-3 rounded-r-2xl  bg-yellow-400 border-yellow-400 border font-semibold ">
             Search

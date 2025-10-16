@@ -59,14 +59,14 @@ export default function Navbar() {
             {loggedIn ? (
               <button
                 onClick={handleLogout}
-                className="px-3 py-2 rounded-lg bg-yellow-400 text-slate-900 font-medium hover:bg-yellow-300 transition"
+                className="w-fit px-3 py-2 rounded-lg bg-yellow-400 text-slate-900 font-medium hover:bg-yellow-300 transition "
               >
                 Log Out
               </button>
             ) : (
               <Link
                 to="/login"
-                className="px-4 py-2 rounded-lg bg-yellow-400 text-slate-900 font-medium hover:bg-yellow-300 transition"
+                className="w-fit px-3 pt-3 rounded-lg bg-yellow-400 text-slate-900 font-medium hover:bg-yellow-300 transition max-sm:text-sm"
               >
                 Login
               </Link>

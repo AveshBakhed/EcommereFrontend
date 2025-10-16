@@ -4,6 +4,7 @@ import { gettingData } from "./services/api";
 import { ProductContext, CartContext } from "./context/contextData";
 import { ToastContainer } from "react-toastify";
 import { showSuccessToast, showErrorToast } from "./utlis/toastUtlis";
+import { ScrollRestoration } from "react-router-dom";
 
 export async function Loader() {
   const data = await gettingData();
@@ -87,6 +88,7 @@ export default function App() {
             theme="colored"
             limit={1}
           />
+          <ScrollRestoration />
         </CartContext.Provider>
       </ProductContext.Provider>
     </>
