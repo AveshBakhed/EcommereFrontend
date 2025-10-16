@@ -66,7 +66,7 @@ export default function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="w-fit px-3 pt-3 rounded-lg bg-yellow-400 text-slate-900 font-medium hover:bg-yellow-300 transition max-sm:text-sm"
+                className="w-fit px-3 py-2 max-sm:pt-3 rounded-lg bg-yellow-400 text-slate-900 font-medium hover:bg-yellow-300 transition max-sm:text-sm"
               >
                 Login
               </Link>
